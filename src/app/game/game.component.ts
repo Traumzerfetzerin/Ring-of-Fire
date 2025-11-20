@@ -14,7 +14,7 @@ import { Game } from '../../models/game';
 
 export class GameComponent implements OnInit {
   pickCardAnimation = false;
-  currentCard: string | undefined;
+  currentCard: string = '';
   game: Game = new Game();
 
 
@@ -36,24 +36,19 @@ export class GameComponent implements OnInit {
    */
   newGame() {
     this.game = new Game();
-    console.log(this.game);
-
   }
 
 
-  /**
-   * Takes the top card from the deck and assigns it to the currentCard property.
-   * Sets the pickCardAnimation property to true for 1500ms to prevent the user from taking multiple cards at once.
-   */
+
   takeCard() {
     if (!this.pickCardAnimation) {
-      this.currentCard = this.game.stack.pop();
-      console.log(this.currentCard);
+      this.currentCard = this.game.stack.pop() as string;
       this.pickCardAnimation = true;
 
       setTimeout(() => {
+        this.game.playedCards.push(this.currentCard);
         this.pickCardAnimation = false;
-      }, 1500);
+      }, 1000);
     }
   }
 }
