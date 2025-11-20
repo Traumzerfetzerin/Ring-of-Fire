@@ -14,6 +14,7 @@ import { Game } from '../../models/game';
 
 export class GameComponent implements OnInit {
   pickCardAnimation = false;
+  currentCard: string | undefined;
   game: Game = new Game();
 
 
@@ -39,12 +40,20 @@ export class GameComponent implements OnInit {
 
   }
 
-  
+
   /**
-   * Starts the animation for taking a card from the deck.
-   * Sets the pickCardAnimation property to true.
+   * Takes the top card from the deck and assigns it to the currentCard property.
+   * Sets the pickCardAnimation property to true for 1500ms to prevent the user from taking multiple cards at once.
    */
   takeCard() {
-    this.pickCardAnimation = true;
+    if (!this.pickCardAnimation) {
+      this.currentCard = this.game.stack.pop();
+      console.log(this.currentCard);
+      this.pickCardAnimation = true;
+
+      setTimeout(() => {
+        this.pickCardAnimation = false;
+      }, 1500);
+    }
   }
 }
