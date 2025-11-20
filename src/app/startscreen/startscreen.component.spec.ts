@@ -10,8 +10,8 @@ describe('StartscreenComponent', () => {
     await TestBed.configureTestingModule({
       imports: [StartscreenComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(StartscreenComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
