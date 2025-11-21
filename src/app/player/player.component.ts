@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-player',
@@ -7,6 +9,21 @@ import { Component } from '@angular/core';
   templateUrl: './player.component.html',
   styleUrl: './player.component.scss'
 })
-export class PlayerComponent {
 
+
+export class PlayerComponent implements OnInit {
+
+
+  @Input() name: string = 'Player Name';
+
+
+  constructor() { }
+
+
+  /**
+   * Lifecycle hook that is called after Angular has finished initializing all the components.
+   * Called once by Angular after the first change detection check.
+   */
+  ngOnInit(): void {
+  }
 }
