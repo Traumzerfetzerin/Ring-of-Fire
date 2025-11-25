@@ -30,10 +30,18 @@ export class DialogAddPlayerComponent implements OnInit {
   constructor() { }
 
 
+  /**
+   * Lifecycle hook that is called after Angular has finished initializing all the components.
+   * Called once by Angular after the first change detection check.
+   */
   ngOnInit(): void {
   }
 
 
+  /**
+   * Called when the "No Thanks" button is clicked.
+   * Closes the dialog without adding a new player.
+   */
   onNoClick(): void {
   }
 }

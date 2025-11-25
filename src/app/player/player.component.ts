@@ -12,8 +12,6 @@ import { OnInit } from '@angular/core';
 
 
 export class PlayerComponent implements OnInit {
-
-
   @Input() name: string = 'Player Name';
   @Input() playerAcitve: boolean = false;
 

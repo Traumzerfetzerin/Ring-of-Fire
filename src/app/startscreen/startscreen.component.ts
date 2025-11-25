@@ -12,8 +12,6 @@ import { Router } from '@angular/router';
 
 
 export class StartscreenComponent implements OnInit {
-
-
   constructor(private router: Router) { }
 
 

@@ -5,6 +5,8 @@ import { PlayerComponent } from '../player/player.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
+import { GameInfoComponent } from '../game-info/game-info.component';
+import {MatCardModule} from '@angular/material/card';
 
 
 @Component({
@@ -13,7 +15,9 @@ import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player
   imports: [
     CommonModule,
     PlayerComponent,
-    MatIconModule,],
+    MatIconModule,
+    GameInfoComponent,
+    MatCardModule],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss'
 })

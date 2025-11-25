@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { StartscreenComponent } from './startscreen.component';
+
 
 describe('StartscreenComponent', () => {
   let component: StartscreenComponent;
