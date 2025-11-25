@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     font-size: 18px;
-    background: orange;
+    background-color: rgba(66, 66, 66, 0.5);
     width: 300px;
     border-top-left-radius: 50px;
     border-bottom-left-radius: 50px;
@@ -13,9 +13,15 @@
     }
 
     img {
-        width: 100px;
-        height: 100px;
+        width: 70px;
+        height: 70px;
         object-fit: cover;
         border-radius: 100%;
     }
+}
+
+.player-active {
+    border-top-left-radius: 4px solid #424242;
+    box-shadow: 0 0 10px #DEDEDE;
+    background: #810081;
 }

@@ -15,6 +15,7 @@ export class PlayerComponent implements OnInit {
 
 
   @Input() name: string = 'Player Name';
+  @Input() playerAcitve: boolean = false;
 
 
   constructor() { }
