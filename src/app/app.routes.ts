@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { StartscreenComponent } from './startscreen/startscreen.component';
 import { GameComponent } from './game/game.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 
 
 export const routes: Routes = [
@@ -12,14 +10,16 @@ export const routes: Routes = [
 ];
 
 
-@NgModule({
-    imports: [
-        RouterModule.forRoot(routes),
-        MatButtonModule,
-        MatIconModule
-    ],
-    exports: [RouterModule]
-})
+// @NgModule({
+//     imports: [
+//         RouterModule.forRoot(routes),
+//         MatButtonModule,
+//         MatDialogModule
+//     ],
+//     exports: [
+//         RouterModule,
+//     ]
+// })
 
 
 export class AppRoutingModule { }

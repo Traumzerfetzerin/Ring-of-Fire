@@ -2,12 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Game } from '../../models/game';
 import { PlayerComponent } from '../player/player.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [CommonModule, PlayerComponent],
+  imports: [
+    CommonModule,
+    PlayerComponent,
+    MatIconModule,],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss'
 })
@@ -19,7 +25,7 @@ export class GameComponent implements OnInit {
   game: Game = new Game();
 
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
 
   /**
@@ -55,5 +61,19 @@ export class GameComponent implements OnInit {
         this.pickCardAnimation = false;
       }, 1000);
     }
+  }
+
+
+  /**
+   * Opens a dialog to add a player to the game.
+   * After the dialog is closed, it will log a message to the console.
+   */
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogAddPlayerComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log('The dialog was closed');
+    });
   }
 }
