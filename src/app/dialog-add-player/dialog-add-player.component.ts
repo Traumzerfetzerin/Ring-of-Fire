@@ -5,6 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogRef } from '@angular/material/dialog';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class DialogAddPlayerComponent implements OnInit {
   name: string = '';
 
 
-  constructor() { }
+  constructor(private dialogRef: MatDialogRef<DialogAddPlayerComponent>) { }
 
 
   /**
@@ -39,9 +40,9 @@ export class DialogAddPlayerComponent implements OnInit {
 
 
   /**
-   * Called when the "No Thanks" button is clicked.
-   * Closes the dialog without adding a new player.
+   * Closes the dialog.
    */
   onNoClick(): void {
+    this.dialogRef.close();
   }
 }

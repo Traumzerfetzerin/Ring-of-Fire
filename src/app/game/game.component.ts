@@ -74,14 +74,16 @@ export class GameComponent implements OnInit {
 
 
   /**
-   * Opens a dialog to add a player to the game.
-   * After the dialog is closed, it will log a message to the console.
+   * Opens a dialog to add a new player to the game.
+   * When the dialog is closed, adds the entered name to the players list if it is not empty.
    */
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
 
     dialogRef.afterClosed().subscribe(name => {
-      this.game.players.push(name);
+      if (name && name.length > 0) {
+        this.game.players.push(name);
+      }
     });
   }
 }
