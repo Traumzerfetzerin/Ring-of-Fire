@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { GameInfoComponent } from '../game-info/game-info.component';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 
 
 @Component({
@@ -51,14 +51,19 @@ export class GameComponent implements OnInit {
 
 
   /**
-   * Animates the taking of a card from the stack.
-   * If the animation is not already running, it pops the top card from the stack and sets the currentCard property.
-   * It then sets the pickCardAnimation property to true and waits for 1000ms before adding the currentCard to the playedCards and resetting the pickCardAnimation property to false.
+   * Tries to take a card from the deck.
+   * If the takeCard animation is not currently running, takes the top card from the deck,
+   * starts the animation, increments the current player index, and schedules a function to be called after 1000ms.
+   * The scheduled function adds the taken card to the played cards list and stops the animation.
+   * If the animation is currently running, does nothing.
    */
   takeCard() {
     if (!this.pickCardAnimation) {
       this.currentCard = this.game.stack.pop() as string;
       this.pickCardAnimation = true;
+
+      this.game.currentPlayer++;
+      this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
 
       setTimeout(() => {
         this.game.playedCards.push(this.currentCard);
