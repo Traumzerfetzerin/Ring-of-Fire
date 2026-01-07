@@ -45,15 +45,14 @@ export class GameComponent implements OnInit {
 
 
   /**
-   * Resets the game state to a new game and writes a new document to the 'games' collection in Firestore.
-   * The document contains a single field 'Hallo' with the value 'Welt'.
+   * Resets the game state to a new game and adds it to the 'games' collection in Firestore.
+   * The 'games' collection is used to store the game state for each game.
+   * When a new game is started, the current state of the game is added to the 'games' collection.
    */
   newGame() {
     this.game = new Game();
     const gamesRef = collection(this.firestore, 'games');
-    addDoc(gamesRef, { 'Hallo': 'Welt' }).then(() => {
-      console.log('Document written with ID: ');
-    });
+    addDoc(gamesRef, this.game.toJson());
   }
 
 
