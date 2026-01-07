@@ -8,6 +8,8 @@ import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player
 import { GameInfoComponent } from '../game-info/game-info.component';
 import { MatCardModule } from '@angular/material/card';
 import { Firestore, collection, addDoc } from '@angular/fire/firestore';
+import { ActivatedRoute } from '@angular/router';
+import { doc, docData } from '@angular/fire/firestore';
 
 
 @Component({
@@ -29,28 +31,49 @@ export class GameComponent implements OnInit {
   pickCardAnimation = false;
   currentCard: string = '';
   game: Game = new Game();
-  private firestore = inject(Firestore);
 
 
-  constructor(public dialog: MatDialog) { }
+  constructor(private route: ActivatedRoute, private firestore: Firestore, public dialog: MatDialog) { }
 
 
   /**
-   * Called after the component's properties have been initialized.
-   * Resets the game state to a new game.
+   * Lifecycle hook that is called after Angular has finished initializing all the components.
+   * Called once by Angular after the first change detection check.
+   * If the route parameter 'id' is present, it will load the game from the Firestore.
+   * If the route parameter 'id' is not present, it will create a new game.
    */
   ngOnInit(): void {
-    this.newGame();
+    this.route.params.subscribe(params => {
+      const gameId = params['id'];
+
+      if (!gameId) {
+        this.newGame();
+        return;
+      }
+
+      const gameDocRef = doc(this.firestore, `games/${gameId}`);
+
+      docData(gameDocRef).subscribe((game: any) => {
+        if (!game) return;
+
+        this.game.currentPlayer = game.currentPlayer;
+        this.game.players = game.players;
+        this.game.playedCards = game.playedCards;
+        this.game.stack = game.stack;
+      });
+
+    });
   }
 
 
   /**
-   * Resets the game state to a new game and adds it to the 'games' collection in Firestore.
-   * The 'games' collection is used to store the game state for each game.
-   * When a new game is started, the current state of the game is added to the 'games' collection.
+   * Starts a new game.
+   * Initializes a new Game object and adds it to the 'games' collection in Firestore.
+   * @return {void} No return value.
    */
   newGame() {
     this.game = new Game();
+
     const gamesRef = collection(this.firestore, 'games');
     addDoc(gamesRef, this.game.toJson());
   }
