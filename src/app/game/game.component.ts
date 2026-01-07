@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Game } from '../../models/game';
 import { PlayerComponent } from '../player/player.component';
@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { GameInfoComponent } from '../game-info/game-info.component';
 import { MatCardModule } from '@angular/material/card';
+import { Firestore, collection, addDoc } from '@angular/fire/firestore';
 
 
 @Component({
@@ -17,7 +18,8 @@ import { MatCardModule } from '@angular/material/card';
     PlayerComponent,
     MatIconModule,
     GameInfoComponent,
-    MatCardModule],
+    MatCardModule
+  ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss'
 })
@@ -27,6 +29,7 @@ export class GameComponent implements OnInit {
   pickCardAnimation = false;
   currentCard: string = '';
   game: Game = new Game();
+  private firestore = inject(Firestore);
 
 
   constructor(public dialog: MatDialog) { }
@@ -42,11 +45,15 @@ export class GameComponent implements OnInit {
 
 
   /**
-   * Resets the game state to a new game.
-   * Creates a new Game instance and assigns it to the game property.
+   * Resets the game state to a new game and writes a new document to the 'games' collection in Firestore.
+   * The document contains a single field 'Hallo' with the value 'Welt'.
    */
   newGame() {
     this.game = new Game();
+    const gamesRef = collection(this.firestore, 'games');
+    addDoc(gamesRef, { 'Hallo': 'Welt' }).then(() => {
+      console.log('Document written with ID: ');
+    });
   }
 
 
