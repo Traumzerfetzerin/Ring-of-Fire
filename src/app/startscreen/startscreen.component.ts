@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Firestore } from '@angular/fire/firestore';
+import { ActivatedRoute } from '@angular/router';
+import { doc, docData } from '@angular/fire/firestore';
+import { collection, addDoc } from '@angular/fire/firestore';
+import { Game } from '../../models/game';
 
 
 @Component({
@@ -12,7 +17,7 @@ import { Router } from '@angular/router';
 
 
 export class StartscreenComponent implements OnInit {
-  constructor(private router: Router) { }
+  constructor(private firestore: Firestore, private router: Router) { }
 
 
   /**
@@ -24,10 +29,20 @@ export class StartscreenComponent implements OnInit {
 
 
   /**
-   * Navigate to the game page to start a new game.
+   * Creates a new game in the Firestore and navigates to the game page with the given game ID.
+   * If an error occurs while creating the game, it will be logged to the console.
    */
   newGame() {
-    // Start a new game
-    this.router.navigateByUrl('/game');
+    const game = new Game();
+    const gamesCollection = collection(this.firestore, 'games');
+
+    addDoc(gamesCollection, game.toJson())
+      .then((docRef) => {
+        console.log('Game created with ID:', docRef.id);
+        this.router.navigateByUrl('/game/' + docRef.id);
+      })
+      .catch((error) => {
+        console.error('Error creating game:', error);
+      });
   }
 }

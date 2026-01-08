@@ -67,15 +67,11 @@ export class GameComponent implements OnInit {
 
 
   /**
-   * Starts a new game.
-   * Initializes a new Game object and adds it to the 'games' collection in Firestore.
-   * @return {void} No return value.
+   * Creates a new game and resets all game state.
+   * This method is called when the user navigates to the game page without a valid game ID.
    */
   newGame() {
     this.game = new Game();
-
-    const gamesRef = collection(this.firestore, 'games');
-    addDoc(gamesRef, this.game.toJson());
   }
 
 
