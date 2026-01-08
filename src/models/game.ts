@@ -3,6 +3,8 @@ export class Game {
     public stack: string[] = [];
     public playedCards: string[] = [];
     public currentPlayer: number = 0;
+    public pickCardAnimation = false;
+    public currentCard: string = '';
 
 
     /**
@@ -20,24 +22,29 @@ export class Game {
 
         shuffle(this.stack);
     }
-
+    
 
     /**
      * Returns a JSON representation of the game state.
      *
-     * The returned JSON object contains the following properties:
-     * - players: An array of strings representing the names of the players.
-     * - stack: An array of strings representing the cards in the deck.
-     * - playedCards: An array of strings representing the cards that have been played.
-     * - currentPlayer: A number representing the index of the current player in the players array.
-     * @return {Object} A JSON object representing the game state.
+     * The returned object contains the following properties:
+     * - `players`: an array of player names.
+     * - `stack`: an array of card IDs representing the deck.
+     * - `playedCards`: an array of card IDs representing the cards that have been played.
+     * - `currentPlayer`: the index of the current player in the `players` array.
+     * - `pickCardAnimation`: a boolean indicating whether the card picking animation is currently running.
+     * - `currentCard`: the ID of the card that is currently being picked.
+     *
+     * @return {object} A JSON representation of the game state.
      */
     public toJson() {
         return {
             players: this.players,
             stack: this.stack,
             playedCards: this.playedCards,
-            currentPlayer: this.currentPlayer
+            currentPlayer: this.currentPlayer,
+            pickCardAnimation: this.pickCardAnimation,
+            currentCard: this.currentCard
         };
     }
 }

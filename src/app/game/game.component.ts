@@ -30,8 +30,6 @@ import { updateDoc } from '@angular/fire/firestore';
 
 
 export class GameComponent implements OnInit {
-  pickCardAnimation = false;
-  currentCard: string = '';
   game: Game = new Game();
   gameId: string = '';
 
@@ -39,12 +37,12 @@ export class GameComponent implements OnInit {
   constructor(private route: ActivatedRoute, private firestore: Firestore, public dialog: MatDialog) { }
 
 
-/**
- * Lifecycle hook that is called after Angular has finished initializing all the components.
- * Subscribes to route parameters and updates the game ID.
- * If no game ID is provided, a new game is created.
- * If a game ID is provided, the game state is updated from the Firestore.
- */
+  /**
+   * Lifecycle hook that is called after Angular has finished initializing all the components.
+   * Subscribes to route parameters to get the game ID from the URL.
+   * If no game ID is provided, creates a new game.
+   * If a game ID is provided, subscribes to the game document in the Firestore and updates the game state based on the document's data.
+   */
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.gameId = params['id'];
@@ -63,6 +61,8 @@ export class GameComponent implements OnInit {
         this.game.players = game.players;
         this.game.playedCards = game.playedCards;
         this.game.stack = game.stack;
+        this.game.pickCardAnimation = game.pickCardAnimation;
+        this.game.currentCard = game.currentCard;
       });
     });
   }
@@ -78,23 +78,23 @@ export class GameComponent implements OnInit {
 
 
   /**
-   * Removes the top card from the deck and adds it to the played cards list.
-   * The current player is incremented and wrapped around to the first player.
-   * The game state is updated in the Firestore.
-   * The animation is triggered, and after 1 second, the played cards list is updated and the animation is stopped.
+   * Tries to take a card from the deck.
+   * If the card picking animation is not running, pops a card from the deck and updates the game state.
+   * If the animation is running, does nothing.
+   * After the animation finishes (after 1 second), updates the game state by adding the taken card to the played cards and resetting the animation state.
    */
   takeCard() {
-    if (!this.pickCardAnimation) {
-      this.currentCard = this.game.stack.pop() as string;
-      this.pickCardAnimation = true;
+    if (!this.game.pickCardAnimation) {
+      this.game.currentCard = this.game.stack.pop() as string;
+      this.game.pickCardAnimation = true;
       this.updateGameInFirestore();
 
       this.game.currentPlayer++;
       this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
 
       setTimeout(() => {
-        this.game.playedCards.push(this.currentCard);
-        this.pickCardAnimation = false;
+        this.game.playedCards.push(this.game.currentCard);
+        this.game.pickCardAnimation = false;
         this.updateGameInFirestore();
       }, 1000);
     }
